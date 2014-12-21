@@ -28,6 +28,7 @@ package core.controllers
 		private var bean:Object = null;
 		
 		private var _collection:IList;
+		private var _filtered: Boolean;
 		
 		protected var cursor:IViewCursor;
 		protected var currentItem:Object;
@@ -47,6 +48,7 @@ package core.controllers
 		
 		public function reset():void {
 			this._collection  = null;
+			this._filtered	  = false;
 			this.currentItem  = null;
 			this.currentIndex = -1;
 			this.sort		  = null;
@@ -128,6 +130,23 @@ package core.controllers
 		public function get collection():IList {
 			return this._collection;
 		}
+
+		public function get filtered(): Boolean {
+			return this._filtered;
+		}
+		public function set filtered(filtered: Boolean): void {
+			this._filtered = filtered;
+			if (this._filtered) {
+				(this._collection as ArrayCollection).filterFunction = this.filter;
+			} else {
+				(this._collection as ArrayCollection).filterFunction = null;
+			}
+			this.refresh();
+		}
+		
+		public function refresh(): void {
+			(this._collection as ArrayCollection).refresh();
+		}
 		
 		public function setSortField(field:String):IDataService {
 			this.sortField = null;
@@ -141,7 +160,7 @@ package core.controllers
 		}
 
 		public function setFilter(filterFunction:Function):void {
-			(this._collection as ArrayCollection).filterFunction = this.filter = filterFunction;
+			this.filter = filterFunction;
 		}
 		
 		//.............getters

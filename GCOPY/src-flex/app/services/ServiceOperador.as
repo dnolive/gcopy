@@ -7,7 +7,7 @@ package app.services
 	{
 		public function ServiceOperador() {
 			this.endpoint = ModelLocator.getInstance().RO_ENDPOINT;
-			this.destination = 'DAO_OPERADOR';
+			this.destination = 'ServiceOperador';
 		}
 	}
 }

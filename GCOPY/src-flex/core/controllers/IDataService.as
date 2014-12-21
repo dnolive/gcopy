@@ -7,6 +7,7 @@ package core.controllers
 	{
 		function reset():void;
 		function gotoItem():void;
+		function refresh(): void;
 		
 		//
 		//comandos básicos de acesso remoto
@@ -24,6 +25,9 @@ package core.controllers
 		
 		function get collection():IList;
 		function set collection(source:IList):void;
+		
+		function get filtered(): Boolean;
+		function set filtered(filtered: Boolean): void;
 		
 		function getIndexOf(field:String, key:*):int;
 		

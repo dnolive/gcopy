@@ -4,8 +4,9 @@ package app.services
 
 	public class ServiceSetor extends DataService
 	{
-		public function ServiceSetor()
-		{
+		public function ServiceSetor() {
+			this.endpoint = ModelLocator.getInstance().RO_ENDPOINT;
+			this.destination = 'ServiceSetor';
 		}
 	}
 }
