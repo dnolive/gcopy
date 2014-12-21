@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 			   
+			   creationComplete="onCreationComplete(event)"
+			   close="this.close()"
+			   width="400" height="234">
+	
+	<fx:Script>
+		<![CDATA[
+			import app.controllers.ModelLocator;
+			import app.models.entities.Operador;
+			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			//........................
+			
+			protected const VT_INSERT:int = 0;
+			protected const VT_UPDATE:int = 1;
+			
+			protected const AC_POST:int	  = 0;
+			protected const AC_CANCEL:int = 1;
+			
+			//........................
+			
+			[Bindable]
+			protected var helper:ModelLocator;
+			
+			[Bindable]
+			private var fViewType:int = VT_INSERT;
+			
+			[Bindable]
+			private var fTextViewType:String;
+			
+			[Bindable]
+			public var data:Object;
+			
+			//........................
+			
+			private function onCreationComplete(event:FlexEvent):void	{
+				this.helper = ModelLocator.getInstance();
+				PopUpManager.centerPopUp(this);
+			}
+			
+			public function set viewType(value:int):void {
+				switch (value) {
+					case VT_INSERT: {
+						this.fTextViewType = 'Inserindo NOVO';
+						break;
+					}
+					case VT_UPDATE: {
+						this.fTextViewType = 'Editando';
+					}
+				}
+			}
+
+			public function get textViewType():String {
+				return this.fTextViewType;
+			}
+			
+			protected function close():void {
+				PopUpManager.removePopUp(this);
+			}
+			
+		]]>
+	</fx:Script>
+	
+</s:TitleWindow>

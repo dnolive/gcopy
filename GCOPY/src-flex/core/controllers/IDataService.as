@@ -1,0 +1,41 @@
+package core.controllers
+{
+	import mx.collections.IList;
+	import mx.rpc.IResponder;
+	
+	public interface IDataService extends IResponder
+	{
+		function reset():void;
+		function gotoItem():void;
+		
+		//
+		//comandos básicos de acesso remoto
+		//
+		
+		function getAll():void;
+		
+		function getByID(id:Number):void;
+		
+		function save(o:Object):void;
+		
+		function remove(o:Object):void;
+		
+		//................getters && setters
+		
+		function get collection():IList;
+		function set collection(source:IList):void;
+		
+		function getIndexOf(field:String, key:*):int;
+		
+		function getItemOf(field:String, key:*):Object;
+		
+		function getItemIndex():int;
+		
+		function getCurrentIndex():int;
+		
+		function setSortField(field:String):IDataService;
+		
+		function setFilter(filterFunction:Function):void;
+		
+	}
+}

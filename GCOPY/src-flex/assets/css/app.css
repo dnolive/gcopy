@@ -1,0 +1,186 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+global
+{
+	content-background-color: #F3EDED;
+}
+
+.applicationBar 
+{
+	backgroundColor: gray; 
+	borderThickness: 1; 
+	borderStyle: solid; 
+	color: #0b333c; 
+	cornerRadius: 2; 
+	dropShadowColor: #E5EBE8;
+	dropShadowEnabled: true; 
+	fillAlphas: 1.0, 1.0;
+	fillColors: #B5B1B1, #6E6868;
+	fontColor: black;
+	fontFamily: Arial;
+	fontSize:14;
+	fontWeight: bold;
+	shadowDistance: 2;
+	shadowDirection: right;
+	themeColor: #E5EBE8;
+}
+s|DataGrid 
+{
+	backgroundColor: #ffffff; 
+	color : #0b333c; 
+	fontFamily: Consolas;
+	fontSize: 12;
+	verticalScrollBarStyleName: dataGridVerticalScrollBar;
+	headerStyleName: dataGridHeader;
+	/*rollOverColor: #DCFFB2;
+	selectionColor: #4DFA66;*/
+	headerColors: #E8E3E3, #D1CECE;
+	verticalGridLines: true;
+	horizontalGridLines: false;
+}
+.dataGridVerticalScrollBar 
+{
+	thumbOffset: 1;
+	cornerRadius: 0;
+}
+.dataGridHeader 
+{
+	fontFamily: Arial;
+	fontWeight: bold;
+}
+s|TitleWindow 
+{
+	/*backgroundColor: #ffffff;*/ 
+	color : #0b333c; 
+	/*borderColor : #696969;*/
+	borderStyle :solid; 
+	borderThickness: 1; 
+	/*cornerRadius : 2;*/ 
+	dropShadowColor :#089A5E; 
+	dropShadowEnabled: true; 
+	fontSize:12;
+	footerColors : #089A5E, #09e389; 
+	headerColors : #089A5E, #09e389; 
+	headerHeight:25; 
+	shadowDistance: 3;
+	shadowDirection: right;
+	titleStyleName : titleWindowTitle; 
+}
+.titleWindowTitle 
+{ 
+	font-family :Verdana; 
+	font-size :13; 
+	font-weight :bold; 
+	text-align :left; 
+}
+
+s|Panel 
+{
+	/*backgroundColor: #ffffff;*/ 
+	color : #0b333c; 
+	/*borderColor : #696969;*/
+	borderStyle :solid; 
+	borderThickness: 1; 
+	/*cornerRadius :2;*/ 
+	dropShadowColor: #E5EBE8; 
+	dropShadowEnabled: true; 
+	fontSize:12;
+	footerColors : #089A5E, #09e389; 
+	headerColors : #089A5E, #09e389; 
+	headerHeight:25; 
+	shadowDistance: 3;
+	shadowDirection: right;
+	titleStyleName : "panelTitle"; 
+}
+
+.panelTitle 
+{ 
+	font-family :Verdana; 
+	font-size :13; 
+	font-weight :bold; 
+	text-align :left; 
+} 
+
+s|Alert 
+{
+	backgroundColor: #ffffff; 
+	borderColor: #696969;
+	borderStyle: solid; 
+	borderThickness: 1; 
+	buttonStyleName: "alertButton";			
+	color: #0b333c; 
+	cornerRadius: 4; 
+	dropShadowColor: #089A5E; 
+	dropShadowEnabled: true; 
+	fontSize: 14;
+	footerColors: #089A5E, #09e389; 
+	headerColors: #089A5E, #09e389; 
+	headerHeight: 19; 
+	messageStyleName: "alertMessage";
+	titleStyleName: "alertTitle"; 
+}
+
+.alertTitle 
+{ 
+	color: #ffffff; 
+	fontFamily: Verdana; 
+	fontSize: 13; 
+	fontWeight: bold; 
+	textAlign: left; 
+} 
+
+.alertMessage 
+{
+	color: black;
+	fontSize: 12;
+	fontsWeight: normal;
+	letterSpacing: 0;
+}
+
+.alertButton {
+	buttonMode: true;
+	cornerRadius: 5;
+	fontSize: 11;
+	fontWeight: normal;
+	letterSpacing: 0;
+	textRollOverColor: black;
+	themeColor: #089A5E;
+	useHandCursor: true;
+}
+
+mx|Button {
+	buttonMode: true;
+	fontSize: 10;
+	fontWeight: normal;
+	fontFamily: Arial;
+	textRollOverColor: black;
+	useHandCursor: true;
+	verticalGap: 0;
+	labelPlacement: bottom;
+}
+
+s|Button {
+	buttonMode: true;
+	fontSize: 10;
+	fontWeight: normal;
+	fontFamily: Arial;
+	textRollOverColor: black;
+	useHandCursor: true;
+	verticalGap: 0;
+	labelPlacement: bottom;
+}
+
+.buttons {
+	buttonMode: true;
+	cornerRadius: 5;
+	fontSize: 10;
+	fontWeight: normal;
+	fontFamily: Arial;
+	letterSpacing: 0;
+	textRollOverColor: black;
+	themeColor: #089A5E;
+	useHandCursor: true;
+	verticalGap: 0;
+	labelPlacement: bottom;
+}

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				width="700" height="500" borderVisible="true"
+				close="{PopUpManager.removePopUp(this)}" 
+				title="Gerenciar Operadores do Sistema"
+				creationComplete="onCreationComplete(event)">
+
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import app.models.Operador;
+			import app.services.FactoryService;
+			
+			import core.controllers.Gateway;
+			import core.controllers.IDataService;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.GridSelectionEvent;
+			
+			[Bindable]
+			private var service: IDataService;
+			
+			[Bindable]
+			private var object: Operador;
+			
+			protected function onCreationComplete(event:FlexEvent):void	{
+				this.service = FactoryService.get(FactoryService.OPERADOR);
+				this.service.getAll();
+			}
+			
+			protected function buttonNovoClick(event:MouseEvent):void	{
+				this.object = new Operador();
+				this.inputNome.setFocus();
+			}
+			
+			protected function buttonDeleteClick(event:MouseEvent):void	{
+				this.service.remove(this.object);
+				
+			}
+			
+			protected function buttonSaveClick(event:MouseEvent):void	{
+				this.service.save(this.object);
+				
+			}
+			
+			protected function datagridChange(event:GridSelectionEvent):void {
+				this.object = dataGrid.selectedItem as Operador;
+			}
+			
+			protected function buttonReiniciarClick(event:MouseEvent):void {
+				this.object.senha = '';
+				this.service.save(this.object);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:controlBarContent>
+		<s:HGroup y="23" width="100%" height="38" verticalAlign="middle">
+			<s:Label text="Código:"/>
+			<s:TextInput id="inputID" width="36" enabled="false" text="{this.object.id}"
+						 textAlign="center"/>
+			<s:Label text="Nome:"/>
+			<s:TextInput id="inputNome" width="100%" enabled="{this.object!=null}"
+						 prompt="Digite o nome do operador" text="{this.object.nome}"/>
+			<s:Label text="Login:"/>
+			<s:TextInput id="inputLogin" width="104" enabled="{this.object!=null}" prompt="Digite o Login"
+						 text="{this.object.login}"/>
+			<s:Spacer width="30%" height="10"/>
+			<s:Button id="buttonSalvar" label="Salvar" enabled="{this.object!=null}" click="buttonSaveClick(event)" useHandCursor="true"/>
+			<s:Button id="buttonReiniciar" label="Reiniciar" enabled="{this.object!=null}" click="buttonReiniciarClick(event)" useHandCursor="true"/>
+		</s:HGroup>
+	</s:controlBarContent>
+	
+	<s:BorderContainer x="0" y="0" width="100%" height="32" backgroundColor="#CDCDCD"
+					   borderVisible="false" dropShadowVisible="true">
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
+		</s:layout>
+		<s:Label text="Localizar:"/>
+		<s:TextInput width="100%"/>
+		<s:Button id="buttonProcurar" width="39" label="OK"/>
+		<s:Spacer width="80%" height="10"/>
+		<s:Button id="buttonNovo" label="Novo" useHandCursor="true" click="buttonNovoClick(event)"/>
+		<s:Button id="buttonExcluir" label="Excluir" click="buttonDeleteClick(event)" enabled="{this.object!=null}"
+				  useHandCursor="true"/>
+	</s:BorderContainer>
+	
+	<s:DataGrid id="dataGrid" x="0" y="40" width="100%" height="100%" borderVisible="false"
+				dataProvider="{this.service.collection}" fontSize="11"
+				selectionChange="datagridChange(event)">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="id" headerText="Código" width="60"></s:GridColumn>
+				<s:GridColumn dataField="nome" headerText="Nome"></s:GridColumn>
+				<s:GridColumn dataField="login" headerText="Login" width="100"></s:GridColumn>
+				<s:GridColumn dataField="senha" headerText="Senha" width="100"></s:GridColumn>
+				<s:GridColumn dataField="ativo" headerText="Ativo" width="60"></s:GridColumn>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+
+	
+</s:TitleWindow>
