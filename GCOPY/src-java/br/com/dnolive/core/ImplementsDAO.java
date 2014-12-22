@@ -68,20 +68,32 @@ public class ImplementsDAO<T, ID extends Serializable> implements InterfaceDAO<T
 		return result;
 	}
 
+	@SuppressWarnings("finally")
 	@Override
 	public List<T> save(T obj) {
-		em.getTransaction().begin();
-		em.merge(obj);
-		em.getTransaction().commit();
-		return this.fetchAll();
+		try {
+			em.getTransaction().begin();
+			em.merge(obj);
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+		} finally {
+			return this.fetchAll();
+		}
 	}
 
+	@SuppressWarnings("finally")
 	@Override
 	public List<T> delete(T obj) {
-		em.getTransaction().begin();
-		em.remove(em.merge(obj));
-		em.getTransaction().commit();
-		return this.fetchAll();
+		try {
+			em.getTransaction().begin();
+			em.remove(em.merge(obj));
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+		} finally { 
+			return this.fetchAll();
+		}
 	}
 
 }

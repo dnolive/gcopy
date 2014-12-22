@@ -29,29 +29,29 @@ package core.controllers
 		
 		private static var instance:Gateway = null;
 		
-		public function Gateway(SINGLETON:ghost) {
-			//
+		public function Gateway(endpoint: String) {
+			/*/
 			if (SINGLETON==null) {
 				return;	
 			}
-			//
+			/*/
 			channelSet = new ChannelSet();
-			channel = new AMFChannel('my-amf', this.endpoint=SINGLETON.endpoint);
+			channel = new AMFChannel('my-amf', this.endpoint=endpoint);
 			channelSet.addChannel(channel);
 			//
 			instance = this;
 		}
 
-		/**
+		/*/
 		 * Obtém uma instancia da Classe
 		 * @author Denerson Nobre
 		 * @param endpoint Recebe o endpoint
 		 * @return Gateway
-		 */
+		 *
 		public static function getInstance(endpoint:String):Gateway {
 			if (instance==null) new Gateway(new ghost(endpoint));
 			return instance;
-		}
+		}*/
 		
 		/** 
 		 * Dispara o evento remoto previamente configurado. 

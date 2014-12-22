@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Panel xmlns:fx="http://ns.adobe.com/mxml/2009"
-		  xmlns:s="library://ns.adobe.com/flex/spark"
-		  xmlns:mx="library://ns.adobe.com/flex/mx"
-		  width="666" height="412" layout="absolute" 
-		  title="Gerenciar Locadoras">
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:flexlib="http://code.google.com/p/flexlib/"
+			   width="774" height="480" borderVisible="true"
+			   close="{PopUpManager.removePopUp(this)}" 
+			   creationComplete="onCreationComplete(event)"
+			   title="Gerenciar Franquias">
+	<s:layout>
+		<s:HorizontalLayout gap="2"/>
+	</s:layout>
 
 	<fx:Declarations>
 	</fx:Declarations>
@@ -11,78 +17,292 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import app.models.Operador;
+			import app.models.Locadora;
+			import app.services.FactoryService;
+			import app.services.ModelLocator;
 			
 			import core.controllers.Gateway;
+			import core.controllers.IDataService;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
-			[Bindable]
-			private var operadores: ArrayCollection;
+			import spark.events.GridSelectionEvent;
+			import spark.events.TextOperationEvent;
+			
+			[Embed(source='assets/images/disquete_18.png')]
+			private const icoSave:Class;
+			[Embed(source='assets/images/add.png')]
+			private const icoNovo:Class;
+			[Embed(source='assets/images/delete.png')]
+			private const icoDelete:Class;
 			
 			[Bindable]
-			private var operador: Operador;
+			private var service: IDataService;
 			
+			[Bindable]
+			private var object: Locadora;
 			
-			private var ro: Gateway = Gateway.getInstance(
-				'http://localhost:8400/gcopy/messagebroker/amf'
-			);
+			[Bindable]
+			private var helper: ModelLocator = ModelLocator.getInstance();
 			
 			
 			protected function onCreationComplete(event:FlexEvent):void	{
-				this.operadores = new ArrayCollection;
+				this.service = FactoryService.get(FactoryService.LOCADORA);
+				this.service.setFilter(this.onFilterList);
+				this.service.getAll();
 			}
 			
-			protected function onSuccessResult(event:ResultEvent):void {
-				this.operadores = event.result as ArrayCollection;
+			protected function inputProcurarChange(event:TextOperationEvent):void {
+				this.service.filtered = (this.inputProcurar.text.length>0);
+				this.service.refresh();
 			}
 			
-			protected function onFaultResult(event:FaultEvent):void
-			{
-				mx.controls.Alert.show("falhou");
+			protected function buttonNovoClick(event:MouseEvent):void	{
+				this.object = new Locadora();
+				this.inputNome.setFocus();
 			}
 			
-			protected function button1_clickHandler(event:MouseEvent):void {
-				ro.setSource('br.com.dnolive.services.ServiceOperador');
-				ro.setDestination('DAO_OPERADOR');
-				ro.setOperation('fetchAll');
-				ro.setCallBack(onSuccessResult,onFaultResult);
-				ro.dispatch();
+			protected function buttonDeleteClick(event:MouseEvent):void	{
+				this.service.remove(this.object);
+			}
+			
+			protected function buttonSaveClick(event:MouseEvent):void	{
+				this.service.save(this.object);
+			}
+			
+			protected function checkAtivoClick(event:MouseEvent):void {
+				this.object.ativo = this.checkAtivo.selected?'S':'N';
+			}
+			
+			protected function datagridChange(event:GridSelectionEvent):void {
+				this.object = dataGrid.selectedItem as Locadora;
+			}
+			
+			protected function onFilterList(item:Object):Boolean {
+				return (item.nome.toLowerCase().search(this.inputProcurar.text.toLowerCase()) != -1);
+			}
+			
+			protected function statusLabel(item:Object, col:GridColumn): String {
+				return item.ativo=='S'?'Sim':'Não';
+			}
+			
+			private function enableButton(): Boolean {
+				return (this.object!=null)&&(ArrayCollection(this.service.collection).length>0);
 			}
 			
 		]]>
 	</fx:Script>
-	<s:BorderContainer x="0" y="0" width="100%" height="32" backgroundColor="#CDCDCD"
-					   borderVisible="false" dropShadowVisible="true">
-		<s:layout>
-			<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
-		</s:layout>
-		<s:Label text="Localizar:"/>
-		<s:TextInput width="100%"/>
-		<s:Button width="39" label="OK"/>
-		<s:Spacer width="100%" height="10"/>
-		<s:Button label="Novo"/>
-		<s:Button label="Alterar"/>
-		<s:Button label="Excluir"/>
-		<s:Spacer width="10%" height="10"/>
-		<s:Button label="Contratos"/>
-		<s:Button label="Equipamento"/>
-	</s:BorderContainer>
-	<s:DataGrid x="0" y="40" width="100%" height="339" dataProvider="{this.operadores}">
-		<s:columns>
-			<s:ArrayList>
-				<s:GridColumn dataField="id" headerText="Código" width="80"></s:GridColumn>
-				<s:GridColumn dataField="nome" headerText="Nome"></s:GridColumn>
-				<s:GridColumn dataField="login" headerText="Login" width="80"></s:GridColumn>
-				<s:GridColumn dataField="senha" headerText="Senha" width="80"></s:GridColumn>
-				<s:GridColumn dataField="ativo" headerText="Status" width="100"></s:GridColumn>
-			</s:ArrayList>
-		</s:columns>
-	</s:DataGrid>
-
 	
-</mx:Panel>
+	<s:BorderContainer width="100" height="100%" backgroundColor="#CDCDCD"
+					   borderVisible="true" fontSize="11">
+		<s:layout>
+			<s:VerticalLayout gap="1"/>
+		</s:layout>
+		<s:BorderContainer width="100" height="32" backgroundColor="#C7CAC7" borderVisible="false"
+						   fontSize="11">
+			<s:layout>
+				<s:VerticalLayout gap="1" verticalAlign="middle" horizontalAlign="justify"/>
+			</s:layout>
+			<s:Label fontSize="12" fontWeight="bold" text="PÁGINAS" textAlign="center" textDecoration="underline"/>
+		</s:BorderContainer>
+		<s:BorderContainer width="100%" height="100%" backgroundColor="#CDCDCD" borderVisible="false" fontSize="11">
+			<s:layout>
+				<s:VerticalLayout gap="1" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5"/>
+			</s:layout>
+			<s:ButtonBar width="100%" height="100%" dataProvider="{viewstack}" selectedIndex="0">
+				<s:layout>
+					<s:VerticalLayout gap="-1" horizontalAlign="justify" rowHeight="28"
+									  variableRowHeight="false"/>
+				</s:layout>
+			</s:ButtonBar>
+		</s:BorderContainer>
+	</s:BorderContainer>
+	
+	<mx:ViewStack id="viewstack" width="100%" height="100%" borderVisible="false">
+		<s:NavigatorContent width="100%" height="100%" label="Franquias">
+			<s:layout>
+				<s:VerticalLayout gap="0"/>
+			</s:layout>
+			<s:BorderContainer width="100%" height="32" backgroundColor="#CDCDCD"
+							   borderVisible="false" dropShadowVisible="false">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
+				</s:layout>
+				<s:Label text="Localizar:"/>
+				<s:TextInput id="inputProcurar" width="100%"/>
+				<s:Spacer width="30%" height="10"/>
+				<s:Button id="buttonNovo" label="Novo" useHandCursor="true" 
+						  click="buttonNovoClick(event)" icon="{this.icoNovo}"/>
+				<s:Button id="buttonExcluir" label="Excluir" click="buttonDeleteClick(event)" icon="{this.icoDelete}" 
+						  enabled="{this.enableButton()}" useHandCursor="true"/>
+			</s:BorderContainer>
+			<s:DataGrid id="dataGrid" x="0" y="40" width="100%" height="100%" borderVisible="false"
+						dataProvider="{this.service.collection}" resizableColumns="false"
+						selectionChange="datagridChange(event)">
+				<s:columns>
+					<s:ArrayList>
+						<s:GridColumn dataField="id" headerText="Código" width="60"></s:GridColumn>
+						<s:GridColumn dataField="nome" headerText="Nome"></s:GridColumn>
+						<s:GridColumn dataField="ativo" headerText="Ativo" labelFunction="statusLabel" width="60"></s:GridColumn>
+					</s:ArrayList>
+				</s:columns>
+			</s:DataGrid>
+			<s:BorderContainer width="100%" height="38" backgroundColor="#E4E7E9"
+							   borderVisible="false" dropShadowVisible="false">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
+				</s:layout>
+				<s:Label text="Código:"/>
+				<s:TextInput id="inputID" width="36" enabled="false" text="{this.object.id}"
+							 textAlign="center"/>
+				<s:Label text="Nome:"/>
+				<s:TextInput id="inputNome" width="100%" enabled="{this.object!=null}"
+							 prompt="Digite o nome do setor" text="@{this.object.nome}"/>
+				<s:Spacer width="5%" height="10"/>
+				<s:CheckBox id="checkAtivo" label="Ativo" enabled="{this.object!=null}"
+							click="checkAtivoClick(event)" selected="{this.object.ativo=='S'}"/>
+				<s:Spacer width="20%" height="10"/>
+				<s:Button id="buttonSalvar" label="Salvar" enabled="{this.object!=null}" 
+						  click="buttonSaveClick(event)" useHandCursor="true" icon="{this.icoSave}"/>
+			</s:BorderContainer>
+		</s:NavigatorContent>
+		<s:NavigatorContent width="100%" height="100%" label="Contratos">
+			<s:BorderContainer width="100%" height="32" backgroundColor="#CDCDCD"
+							   borderVisible="false" dropShadowVisible="false">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
+				</s:layout>
+				<s:Label text="Localizar:"/>
+				<s:TextInput id="inputProcurar0" width="100%"/>
+				<s:Spacer width="30%" height="10"/>
+				<s:Button id="buttonNovo0" label="Novo" useHandCursor="true" 
+						  click="buttonNovoClick(event)" icon="{this.icoNovo}"/>
+				<s:Button id="buttonExcluir0" label="Excluir" click="buttonDeleteClick(event)" icon="{this.icoDelete}" 
+						  enabled="{this.enableButton()}" useHandCursor="true"/>
+			</s:BorderContainer>
+			<s:DataGrid id="dataGrid0" x="0" y="40" width="100%" height="100%" borderVisible="false"
+						dataProvider="{this.service.collection}" resizableColumns="false"
+						selectionChange="datagridChange(event)">
+				<s:columns>
+					<s:ArrayList>
+						<s:GridColumn dataField="id" headerText="Código" width="60"></s:GridColumn>
+						<s:GridColumn dataField="nome" headerText="Nome"></s:GridColumn>
+						<s:GridColumn dataField="ativo" headerText="Ativo" labelFunction="statusLabel" width="60"></s:GridColumn>
+					</s:ArrayList>
+				</s:columns>
+			</s:DataGrid>
+			<s:BorderContainer width="100%" height="38" backgroundColor="#E4E7E9"
+							   borderVisible="false" dropShadowVisible="false">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
+				</s:layout>
+				<s:Label text="Código:"/>
+				<s:TextInput id="inputID0" width="36" enabled="false" text="{this.object.id}"
+							 textAlign="center"/>
+				<s:Label text="Nome:"/>
+				<s:TextInput id="inputNome0" width="100%" enabled="{this.object!=null}"
+							 prompt="Digite o nome do setor" text="@{this.object.nome}"/>
+				<s:Spacer width="5%" height="10"/>
+				<s:CheckBox id="checkAtivo0" label="Ativo" enabled="{this.object!=null}"
+							click="checkAtivoClick(event)" selected="{this.object.ativo=='S'}"/>
+				<s:Spacer width="20%" height="10"/>
+				<s:Button id="buttonSalvar0" label="Salvar" enabled="{this.object!=null}" 
+						  click="buttonSaveClick(event)" useHandCursor="true" icon="{this.icoSave}"/>
+			</s:BorderContainer>
+		</s:NavigatorContent>
+		<s:NavigatorContent width="100%" height="100%" label="Equipamento">
+			<s:BorderContainer width="100%" height="32" backgroundColor="#CDCDCD"
+							   borderVisible="false" dropShadowVisible="false">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
+				</s:layout>
+				<s:Label text="Localizar:"/>
+				<s:TextInput id="inputProcurar1" width="100%"/>
+				<s:Spacer width="30%" height="10"/>
+				<s:Button id="buttonNovo1" label="Novo" useHandCursor="true" 
+						  click="buttonNovoClick(event)" icon="{this.icoNovo}"/>
+				<s:Button id="buttonExcluir1" label="Excluir" click="buttonDeleteClick(event)" icon="{this.icoDelete}" 
+						  enabled="{this.enableButton()}" useHandCursor="true"/>
+			</s:BorderContainer>
+			<s:DataGrid id="dataGrid1" x="0" y="40" width="100%" height="100%" borderVisible="false"
+						dataProvider="{this.service.collection}" resizableColumns="false"
+						selectionChange="datagridChange(event)">
+				<s:columns>
+					<s:ArrayList>
+						<s:GridColumn dataField="id" headerText="Código" width="60"></s:GridColumn>
+						<s:GridColumn dataField="nome" headerText="Nome"></s:GridColumn>
+						<s:GridColumn dataField="ativo" headerText="Ativo" labelFunction="statusLabel" width="60"></s:GridColumn>
+					</s:ArrayList>
+				</s:columns>
+			</s:DataGrid>
+			<s:BorderContainer width="100%" height="38" backgroundColor="#E4E7E9"
+							   borderVisible="false" dropShadowVisible="false">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
+				</s:layout>
+				<s:Label text="Código:"/>
+				<s:TextInput id="inputID1" width="36" enabled="false" text="{this.object.id}"
+							 textAlign="center"/>
+				<s:Label text="Nome:"/>
+				<s:TextInput id="inputNome1" width="100%" enabled="{this.object!=null}"
+							 prompt="Digite o nome do setor" text="@{this.object.nome}"/>
+				<s:Spacer width="5%" height="10"/>
+				<s:CheckBox id="checkAtivo1" label="Ativo" enabled="{this.object!=null}"
+							click="checkAtivoClick(event)" selected="{this.object.ativo=='S'}"/>
+				<s:Spacer width="20%" height="10"/>
+				<s:Button id="buttonSalvar1" label="Salvar" enabled="{this.object!=null}" 
+						  click="buttonSaveClick(event)" useHandCursor="true" icon="{this.icoSave}"/>
+			</s:BorderContainer>
+		</s:NavigatorContent>
+		<s:NavigatorContent width="100%" height="100%" label="Movimento">
+			<s:BorderContainer width="100%" height="32" backgroundColor="#CDCDCD"
+							   borderVisible="false" dropShadowVisible="false">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
+				</s:layout>
+				<s:Label text="Localizar:"/>
+				<s:TextInput id="inputProcurar2" width="100%"/>
+				<s:Spacer width="30%" height="10"/>
+				<s:Button id="buttonNovo2" label="Novo" useHandCursor="true" 
+						  click="buttonNovoClick(event)" icon="{this.icoNovo}"/>
+				<s:Button id="buttonExcluir2" label="Excluir" click="buttonDeleteClick(event)" icon="{this.icoDelete}" 
+						  enabled="{this.enableButton()}" useHandCursor="true"/>
+			</s:BorderContainer>
+			<s:DataGrid id="dataGrid2" x="0" y="40" width="100%" height="100%" borderVisible="false"
+						dataProvider="{this.service.collection}" resizableColumns="false"
+						selectionChange="datagridChange(event)">
+				<s:columns>
+					<s:ArrayList>
+						<s:GridColumn dataField="id" headerText="Código" width="60"></s:GridColumn>
+						<s:GridColumn dataField="nome" headerText="Nome"></s:GridColumn>
+						<s:GridColumn dataField="ativo" headerText="Ativo" labelFunction="statusLabel" width="60"></s:GridColumn>
+					</s:ArrayList>
+				</s:columns>
+			</s:DataGrid>
+			<s:BorderContainer width="100%" height="38" backgroundColor="#E4E7E9"
+							   borderVisible="false" dropShadowVisible="false">
+				<s:layout>
+					<s:HorizontalLayout paddingLeft="10" paddingRight="10" verticalAlign="middle"/>
+				</s:layout>
+				<s:Label text="Código:"/>
+				<s:TextInput id="inputID2" width="36" enabled="false" text="{this.object.id}"
+							 textAlign="center"/>
+				<s:Label text="Nome:"/>
+				<s:TextInput id="inputNome2" width="100%" enabled="{this.object!=null}"
+							 prompt="Digite o nome do setor" text="@{this.object.nome}"/>
+				<s:Spacer width="5%" height="10"/>
+				<s:CheckBox id="checkAtivo2" label="Ativo" enabled="{this.object!=null}"
+							click="checkAtivoClick(event)" selected="{this.object.ativo=='S'}"/>
+				<s:Spacer width="20%" height="10"/>
+				<s:Button id="buttonSalvar2" label="Salvar" enabled="{this.object!=null}" 
+						  click="buttonSaveClick(event)" useHandCursor="true" icon="{this.icoSave}"/>
+			</s:BorderContainer>
+		</s:NavigatorContent>
+	</mx:ViewStack>
+	
+</s:TitleWindow>

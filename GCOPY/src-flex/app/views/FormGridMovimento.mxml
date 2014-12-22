@@ -21,38 +21,6 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
-			[Bindable]
-			private var operadores: ArrayCollection;
-			
-			[Bindable]
-			private var operador: Operador;
-			
-			
-			private var ro: Gateway = Gateway.getInstance(
-				'http://localhost:8400/gcopy/messagebroker/amf'
-			);
-			
-			
-			protected function onCreationComplete(event:FlexEvent):void	{
-				this.operadores = new ArrayCollection;
-			}
-			
-			protected function onSuccessResult(event:ResultEvent):void {
-				this.operadores = event.result as ArrayCollection;
-			}
-			
-			protected function onFaultResult(event:FaultEvent):void
-			{
-				mx.controls.Alert.show("falhou");
-			}
-			
-			protected function button1_clickHandler(event:MouseEvent):void {
-				ro.setSource('br.com.dnolive.services.ServiceOperador');
-				ro.setDestination('DAO_OPERADOR');
-				ro.setOperation('fetchAll');
-				ro.setCallBack(onSuccessResult,onFaultResult);
-				ro.dispatch();
-			}
 			
 		]]>
 	</fx:Script>
@@ -69,7 +37,7 @@
 		<s:Button label="Alterar"/>
 		<s:Button label="Excluir"/>
 	</s:BorderContainer>
-	<s:DataGrid x="0" y="40" width="100%" height="339" dataProvider="{this.operadores}">
+	<s:DataGrid x="0" y="40" width="100%" height="339">
 		<s:columns>
 			<s:ArrayList>
 				<s:GridColumn dataField="id" headerText="Código" width="80"></s:GridColumn>

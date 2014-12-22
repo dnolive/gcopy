@@ -62,7 +62,7 @@ package core.controllers
 		//
 		
 		public function getAll():void {
-			(Gateway.getInstance(this._endpoint))
+			(new Gateway(this._endpoint))
 				.setDestination(this._destination)
 				.setOperation('getAll')
 				.setResponder(this)
@@ -70,7 +70,7 @@ package core.controllers
 		}
 		
 		public function getByID(id:Number):void {
-			(Gateway.getInstance(this._endpoint))
+			(new Gateway(this._endpoint))
 				.setDestination(this._destination)
 				.setResponder(this)
 				.setOperation('getByID')
@@ -101,8 +101,8 @@ package core.controllers
 		//closealert para métodos save e remove
 		private function onCloseAlert(event:CloseEvent):void {
 			if (event.detail == Alert.YES) {
-				(Gateway.getInstance(this._endpoint))
-					.setDestination(this.toString())
+				(new Gateway(this._endpoint))
+					.setDestination(this._destination)
 					.setOperation(this.action==ACTION_SAVE?'save':'delete')
 					.setResponder(this)
 					.setParams(this.bean)
@@ -116,7 +116,11 @@ package core.controllers
 			this.cursor.findFirst(this.currentItem);
 		}
 		
-		//................setters
+		public function refresh(): void {
+			(this._collection as ArrayCollection).refresh();
+		}
+		
+		//................getters && setters
 		
 		public function get endpoint(): String {
 			return this._endpoint;
@@ -157,10 +161,6 @@ package core.controllers
 			this.refresh();
 		}
 		
-		public function refresh(): void {
-			(this._collection as ArrayCollection).refresh();
-		}
-		
 		public function setSortField(field:String):IDataService {
 			this.sortField = null;
 			this.sortField = new SortField(field, true);
@@ -175,8 +175,6 @@ package core.controllers
 		public function setFilter(filterFunction:Function):void {
 			this.filter = filterFunction;
 		}
-		
-		//.............getters
 		
 		public function getIndexOf(field:String, key:*):int {
 			if (this._collection)
