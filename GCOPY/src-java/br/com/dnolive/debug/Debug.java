@@ -1,21 +1,19 @@
 package br.com.dnolive.debug;
 
-import br.com.dnolive.models.Operador;
-import br.com.dnolive.services.ServiceOperador;
+import br.com.dnolive.models.*;
+import br.com.dnolive.services.*;
 
 public class Debug 
 {
 	public static void main(String[] args) {
 		
-		Operador op = new Operador();
-		op.setId(1L);
-		op.setNome("DENERSON NOBRE");
-		op.setLogin("DNOLIVE");
-		op.setSenha("JKASDFJASD");
-		op.setAtivo("S");
+		Setor o = new Setor();
+		//o.setId(1L);
+		o.setNome("TECNOLOGIA DA INFORMAÇÃO");
+		o.setAtivo("S");
 		
-		ServiceOperador dao = new ServiceOperador();
-		dao.delete(op);
+		ServiceSetor dao = new ServiceSetor();
+		dao.save(o);
 
 		System.out.println(dao.getAll());
 		

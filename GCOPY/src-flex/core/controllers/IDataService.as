@@ -23,6 +23,12 @@ package core.controllers
 		
 		//................getters && setters
 		
+		function get endpoint(): String;
+		function set endpoint(endpoint: String): void;
+		
+		function get destination(): String;
+		function set destination(destination: String): void;
+		
 		function get collection():IList;
 		function set collection(source:IList):void;
 		
@@ -40,6 +46,8 @@ package core.controllers
 		function setSortField(field:String):IDataService;
 		
 		function setFilter(filterFunction:Function):void;
+		
+		function toString(): String;
 		
 	}
 }

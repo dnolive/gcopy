@@ -30,6 +30,13 @@
 			import spark.events.GridSelectionEvent;
 			import spark.events.TextOperationEvent;
 			
+			[Embed(source='assets/images/disquete_18.png')]
+			private const icoSave:Class;
+			[Embed(source='assets/images/add.png')]
+			private const icoNovo:Class;
+			[Embed(source='assets/images/delete.png')]
+			private const icoDelete:Class;
+			
 			[Bindable]
 			private var service: IDataService;
 			
@@ -58,12 +65,10 @@
 			
 			protected function buttonDeleteClick(event:MouseEvent):void	{
 				this.service.remove(this.object);
-				
 			}
 			
 			protected function buttonSaveClick(event:MouseEvent):void	{
 				this.service.save(this.object);
-				
 			}
 			
 			protected function checkAtivoClick(event:MouseEvent):void {
@@ -82,6 +87,10 @@
 				return item.ativo=='S'?'Sim':'Não';
 			}
 			
+			private function enableButton(): Boolean {
+				return (this.object!=null)&&(ArrayCollection(this.service.collection).length>0);
+			}
+			
 		]]>
 	</fx:Script>
 	<s:controlBarContent>
@@ -91,7 +100,7 @@
 						 textAlign="center"/>
 			<s:Label text="Nome:"/>
 			<s:TextInput id="inputNome" width="100%" enabled="{this.object!=null}"
-						 prompt="Digite o nome do operador" text="@{this.object.nome}"/>
+						 prompt="Digite o nome do setor" text="@{this.object.nome}"/>
 			<s:Spacer width="10%" height="10"/>
 			<s:CheckBox id="checkAtivo" label="Ativo" enabled="{this.object!=null}"
 						click="checkAtivoClick(event)" selected="{this.object.ativo=='S'}"/>
@@ -108,14 +117,16 @@
 		</s:layout>
 		<s:Label text="Localizar:"/>
 		<s:TextInput id="inputProcurar" width="100%"/>
-		<s:Button width="39" label="OK"/>
 		<s:Spacer width="30%" height="10"/>
-		<s:Button label="Novo"/>
-		<s:Button label="Excluir"/>
+		<s:Button id="buttonNovo" label="Novo" useHandCursor="true" 
+				  click="buttonNovoClick(event)" icon="{this.icoNovo}"/>
+		<s:Button id="buttonExcluir" label="Excluir" click="buttonDeleteClick(event)" icon="{this.icoDelete}" 
+				  enabled="{this.enableButton()}" useHandCursor="true"/>
 	</s:BorderContainer>
 	
-	<s:DataGrid id="dataGrid" x="0" y="40" width="100%" height="339" 
-				dataProvider="{this.service.collection}" resizableColumns="false">
+	<s:DataGrid id="dataGrid" x="0" y="40" width="100%" height="339" borderVisible="false"
+				dataProvider="{this.service.collection}" resizableColumns="false"
+				selectionChange="datagridChange(event)">
 		<s:columns>
 			<s:ArrayList>
 				<s:GridColumn dataField="id" headerText="Código" width="60"></s:GridColumn>

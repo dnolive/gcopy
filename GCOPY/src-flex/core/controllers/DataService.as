@@ -35,9 +35,9 @@ package core.controllers
 		protected var currentIndex:int;
 		protected var filter:Function;
 		
-		protected var source:String = '';
-		protected var endpoint:String = '';
-		protected var destination:String = '';
+		private var _source:String = '';
+		private var _endpoint:String = '';
+		private var _destination:String = '';
 		
 		//......................................
 		
@@ -62,16 +62,16 @@ package core.controllers
 		//
 		
 		public function getAll():void {
-			(Gateway.getInstance(this.endpoint))
-				.setDestination(this.destination)
+			(Gateway.getInstance(this._endpoint))
+				.setDestination(this._destination)
 				.setOperation('getAll')
 				.setResponder(this)
 				.dispatch();
 		}
 		
 		public function getByID(id:Number):void {
-			(Gateway.getInstance(this.endpoint))
-				.setDestination(this.destination)
+			(Gateway.getInstance(this._endpoint))
+				.setDestination(this._destination)
 				.setResponder(this)
 				.setOperation('getByID')
 				.setParams(id)
@@ -101,9 +101,9 @@ package core.controllers
 		//closealert para métodos save e remove
 		private function onCloseAlert(event:CloseEvent):void {
 			if (event.detail == Alert.YES) {
-				(Gateway.getInstance(this.endpoint))
+				(Gateway.getInstance(this._endpoint))
+					.setDestination(this.toString())
 					.setOperation(this.action==ACTION_SAVE?'save':'delete')
-					.setDestination(this.destination)
 					.setResponder(this)
 					.setParams(this.bean)
 					.dispatch();
@@ -118,6 +118,23 @@ package core.controllers
 		
 		//................setters
 		
+		public function get endpoint(): String {
+			return this._endpoint;
+		}
+		public function set endpoint(endpoint: String): void {
+			this._endpoint = endpoint;
+		}
+		
+		public function get destination(): String {
+			return this._destination;
+		}
+		public function set destination(destination: String): void {
+			this._destination = destination;
+		}
+		
+		public function get collection():IList {
+			return this._collection;
+		}
 		public function set collection(source:IList):void {
 			if (this._collection != null) {
 				this._collection.removeAll();
@@ -127,10 +144,6 @@ package core.controllers
 			(this._collection as ArrayCollection).addAll(source);
 		}
 		
-		public function get collection():IList {
-			return this._collection;
-		}
-
 		public function get filtered(): Boolean {
 			return this._filtered;
 		}
@@ -200,8 +213,15 @@ package core.controllers
 		}
 		
 		public function fault(info: Object): void {
-			Alert.show('falhou');
+			Alert.show('FALHA NA REQUISIÇÃO.\n\n'+
+				'EndPoint: '+this._endpoint+'\n'+
+				'Destination: '+this._destination, 
+				'Ops!');
 		}
 
+		public function toString(): String {
+			return this.toString();
+		}
+		
 	}		
 }

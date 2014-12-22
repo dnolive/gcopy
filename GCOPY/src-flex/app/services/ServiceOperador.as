@@ -4,10 +4,5 @@ package app.services
 
 	[Bindable]
 	public class ServiceOperador extends DataService
-	{
-		public function ServiceOperador() {
-			this.endpoint = ModelLocator.getInstance().RO_ENDPOINT;
-			this.destination = 'ServiceOperador';
-		}
-	}
+	{}
 }

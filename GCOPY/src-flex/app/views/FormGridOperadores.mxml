@@ -31,11 +31,11 @@
 			import spark.events.TextOperationEvent;
 
 			[Embed(source='assets/images/disquete_18.png')]
-			public const icoSave:Class;
+			private const icoSave:Class;
 			[Embed(source='assets/images/add.png')]
-			public const icoNovo:Class;
+			private const icoNovo:Class;
 			[Embed(source='assets/images/delete.png')]
-			public const icoDelete:Class;
+			private const icoDelete:Class;
 
 			
 			[Bindable]
@@ -99,16 +99,13 @@
 	</fx:Script>
 	<s:controlBarContent>
 		<s:HGroup y="23" width="100%" height="38" verticalAlign="middle">
-			<s:Label text="Código:"/>
-			<s:TextInput id="inputID" width="36" enabled="false" text="{this.object.id}"
-						 textAlign="center"/>
 			<s:Label text="Nome:"/>
 			<s:TextInput id="inputNome" width="100%" enabled="{this.object!=null}"
 						 prompt="Digite o nome do operador" text="@{this.object.nome}"/>
 			<s:Label text="Login:"/>
-			<s:TextInput id="inputLogin" width="104" enabled="{this.object!=null}" prompt="Digite o Login"
+			<s:TextInput id="inputLogin" width="100" enabled="{this.object!=null}" prompt="Digite o Login"
 						 text="@{this.object.login}"/>
-			<s:Spacer width="15%" height="10"/>
+			<s:Spacer width="5%" height="10"/>
 			<s:CheckBox id="checkAtivo" label="Ativo" enabled="{this.object!=null}"
 						click="checkAtivoClick(event)" selected="{this.object.ativo=='S'}"/>
 			<s:Spacer width="30%" height="10"/>
@@ -127,8 +124,7 @@
 		
 		<s:Label text="Localizar:"/>
 		<s:TextInput id="inputProcurar" width="100%" change="inputProcurarChange(event)"/>
-		<s:Button id="buttonProcurar" width="39" label="OK"/>
-		<s:Spacer width="80%" height="10"/>
+		<s:Spacer width="60%" height="10"/>
 		<s:Button id="buttonNovo" label="Novo" useHandCursor="true" 
 				  click="buttonNovoClick(event)" icon="{this.icoNovo}"/>
 		<s:Button id="buttonExcluir" label="Excluir" click="buttonDeleteClick(event)" 

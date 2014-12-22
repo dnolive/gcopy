@@ -13,7 +13,10 @@ public final class DaoFactory
 		EQUIPAMENTO(1),
 		SETOR(2),
 		LOCADORA(3),
-		MOVIMENTO(4);
+		MOVIMENTO(4),
+		MOVIMITEM(5),
+		EQUIPALOCA(6),
+		CONTRATO(7);
 
 		public int dao;
 		
@@ -36,6 +39,12 @@ public final class DaoFactory
 		switch (dao) {
 			case OPERADOR: return new DaoOperador(em);
 			case EQUIPAMENTO: return new DaoEquipamento(em);
+			case SETOR: return new DaoSetor(em);
+			case LOCADORA: return new DaoLocadora(em);
+			case MOVIMENTO: return new DaoMovimento(em);
+			case MOVIMITEM: return new DaoMovimitem(em);
+			case EQUIPALOCA: return new DaoEquipaloca(em);
+			case CONTRATO: return new DaoContrato(em);
 			default: return null;
 		}
 	}
