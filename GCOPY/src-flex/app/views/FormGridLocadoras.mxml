@@ -2,7 +2,6 @@
 <s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
-			   xmlns:flexlib="http://code.google.com/p/flexlib/"
 			   width="774" height="480" borderVisible="true"
 			   close="{PopUpManager.removePopUp(this)}" 
 			   creationComplete="onCreationComplete(event)"

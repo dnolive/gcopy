@@ -40,4 +40,21 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>[source path] lib-flex</name>
+			<type>2</type>
+			<location>D:/Projetos/flex4/GCOPY/lib-flex</location>
+		</link>
+		<link>
+			<name>[source path] src-flex</name>
+			<type>2</type>
+			<location>D:/Projetos/flex4/GCOPY/src-flex</location>
+		</link>
+		<link>
+			<name>[source path] src-java</name>
+			<type>2</type>
+			<location>D:/Projetos/flex4/GCOPY/src-java</location>
+		</link>
+	</linkedResources>
 </projectDescription>
