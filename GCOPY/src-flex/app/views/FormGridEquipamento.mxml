@@ -5,6 +5,8 @@
 		  width="640" height="480" borderVisible="true"
 		  close="{PopUpManager.removePopUp(this)}" 
 		  creationComplete="onCreationComplete(event)" 
+		  creationCompleteEffect="Zoom"
+		  removedEffect="Fade"
 		  title="Gerenciar Cadastro de Equipamento">
 
 	<fx:Declarations>

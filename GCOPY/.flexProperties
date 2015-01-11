@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexProperties enableServiceManager="false" flexServerFeatures="4" flexServerType="8" flexWarLocation="D:/MyDocuments/_library/java/blazeds4/blazeds.war" serverContextRoot="//WebContent" serverRoot="C:/Users/Denerson/git/gcopy/GCOPY/WebContent" serverRootURL="http://localhost:8080/GCOPY" toolCompile="true" useServerFlexSDK="false" version="2"/>
+<flexProperties enableServiceManager="false" flexServerFeatures="4" flexServerType="8" flexWarLocation="D:/MyDocuments/_library/java/blazeds4/blazeds.war" serverContextRoot="/WebContent" serverRoot="C:/Users/Denerson/git/gcopy/GCOPY/WebContent" serverRootURL="http://localhost:8080/GCOPY" toolCompile="true" useServerFlexSDK="false" version="2"/>

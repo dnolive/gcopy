@@ -8,7 +8,7 @@ import br.com.dnolive.controllers.DaoFactory.DAO;
 
 public class ImplementsService<T, ID extends Serializable> implements InterfaceService<T, ID> 
 {
-	private InterfaceDAO<T, ID> dao;
+	protected InterfaceDAO<T, ID> dao;
 	
 	@SuppressWarnings("unchecked")
 	protected ImplementsService(DAO enumDao) {

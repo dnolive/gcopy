@@ -51,7 +51,7 @@ public class Movimento extends AbstractModel
 	private Float valorTotal;
 	
 	@Column(name="status", insertable=false, updatable=true, 
-		columnDefinition = "varchar(1) default 'S'"
+		columnDefinition = "varchar(1) default 'A'"
 	)
 	private String status;
 

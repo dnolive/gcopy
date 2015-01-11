@@ -7,15 +7,15 @@ public class Debug
 {
 	public static void main(String[] args) {
 		
-		Setor o = new Setor();
+		Operador o = new Operador();
 		//o.setId(1L);
-		o.setNome("TECNOLOGIA DA INFORMAÇÃO");
-		o.setAtivo("S");
+		o.setLogin("FLVO");
+		o.setSenha("JKASDFJASD");
 		
-		ServiceSetor dao = new ServiceSetor();
-		dao.save(o);
+		ServiceOperador dao = new ServiceOperador();
+		o = dao.login(o);
 
-		System.out.println(dao.getAll());
+		System.out.println(o);
 		
 	}
 

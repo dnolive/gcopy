@@ -1,6 +1,7 @@
 package app.services
 {
 	import app.models.*;
+	
 	import core.controllers.*;
 	
 	import mx.collections.ArrayCollection;
@@ -65,8 +66,8 @@ package app.services
 		
 		public const RO_ENDPOINT:String = 'http://localhost:8400/gcopy/messagebroker/amf';
 		
-		public const STATE_LOGON:String  = 'logout';
-		public const STATE_LOGOFF:String = 'logged';
+		public const STATE_LOGON:String  = 'logon';
+		public const STATE_LOGOFF:String = 'logoff';
 		
 		//contém o container dos modulos.
 		public var desktop:BorderContainer;
@@ -76,13 +77,13 @@ package app.services
 		public var currentSelectedMenu:int;
 		//controla o modulo atual em execução
 		public var currentModule:Class;
-		//contém o usuário corrente logado
-		public var currentUser:Operador; 
 		//controla o estado atual do operador
 		public var currentState:String = STATE_LOGOFF; 
 		//
 		public var _serviceFactory:FactoryService;
 		
+		//contém o usuário corrente logado
+		private var _currentUser:Operador; 
 		
 		//construtor da classe
 		public function ModelLocator(singleton:ghost) {
@@ -96,6 +97,19 @@ package app.services
 			
 			//fim das configurações
 			instance = this;
+		}
+		
+		public function get currentUser(): Operador {
+			return this._currentUser;
+		}
+		
+		public function set currentUser(user: Operador): void {
+			this._currentUser = user;
+			if (this._currentUser==null) {
+				this.currentState = STATE_LOGOFF;
+			} else {
+				this.currentState = STATE_LOGON;
+			}
 		}
 		
 		//instanciador da classe

@@ -5,77 +5,30 @@
 			   xmlns:customs="core.views.customs.*"
 			   xmlns:views="app.views.*"
 			   width="100%" height="100%" 
-			   creationComplete="onCreationComplete(event)"
+			   currentState="{ModelLocator.getInstance().currentState}"
 			   pageTitle="Gestão de Franquia de Equipamento">
-	<s:layout>
-		<s:HorizontalLayout gap="0"/>
-	</s:layout>
 	
-	<fx:Declarations>
-	</fx:Declarations>
+	<fx:Style source="assets/css/jukebox.css"/>
 	
 	<fx:Script>
 		<![CDATA[
-			import app.models.Operador;
-			import app.views.*;
-			
-			import core.controllers.Gateway;
-			
-			import mx.collections.ArrayCollection;
-			import mx.containers.Panel;
-			import mx.controls.Alert;
-			import mx.core.IFlexDisplayObject;
-			import mx.events.FlexEvent;
-			import mx.events.ItemClickEvent;
-			import mx.events.MenuEvent;
-			import mx.managers.PopUpManager;
-			import mx.rpc.events.FaultEvent;
-			import mx.rpc.events.ResultEvent;
-			
-			[Bindable]
-			private var itensMenu: ArrayCollection;
-			
-	
-			protected function onCreationComplete(event:FlexEvent):void	{
-				this.itensMenu = new ArrayCollection([
-					{label: "Operadores", form: Class(FormGridOperadores)},
-					{label: "Setores", form: Class(FormGridSetores)},
-					{label: "Equipamentos", form: Class(FormGridEquipamento)},
-					{label: "Franquias", form: Class(FormGridLocadoras)},
-					{label: "Movimento", form: Class(FormGridMovimento)}
-				]);
-			}
-			
-			protected function buttonMenuClick(event:MouseEvent):void {
-				var classe: Class = Class(this.buttonMenu.selectedItem.form);
-				var form: IFlexDisplayObject = new classe;
-				PopUpManager.addPopUp(form,this,true);
-				PopUpManager.centerPopUp(form);
-			}
-			
+			import app.services.ModelLocator;
 		]]>
 	</fx:Script>
 	
-	<s:BorderContainer width="150" height="100%" backgroundColor="#E3E3E3" borderVisible="false">
-		<s:layout>
-			<s:VerticalLayout paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5"/>
-		</s:layout>
-		<s:Image x="10" y="10" width="100%" height="20" scaleMode="stretch" smooth="true"
-				 smoothingQuality="high" source="assets/images/logo_orthomontes.png"/>
-		<s:ButtonBar id="buttonMenu" width="100%" height="100%" buttonMode="true"
-					 click="buttonMenuClick(event)" dataProvider="{this.itensMenu}"
-					 selectedIndex="0">
-			<s:layout>
-				<s:VerticalLayout gap="1" horizontalAlign="justify" paddingBottom="15"
-								  paddingLeft="15" paddingRight="15" paddingTop="15" rowHeight="32"
-								  variableRowHeight="false"/>
-			</s:layout>
-		</s:ButtonBar>
-		
-	</s:BorderContainer>
+	<s:states>
+		<s:State name="logon"/>
+		<s:State name="logoff"/>
+	</s:states>
 	
-	<s:BorderContainer width="100%" height="100%" borderVisible="false">
-		<views:FormGridMovimento width="100%" height="100%"/>
-	</s:BorderContainer>
+	<views:FormLogin 
+		includeIn="logoff" right="10" 
+		top="10" bottom="10">
+	</views:FormLogin>
+	
+	<views:FormMain
+		includeIn="logon" 
+		width="100%" height="100%">
+	</views:FormMain>
 	
 </s:Application>

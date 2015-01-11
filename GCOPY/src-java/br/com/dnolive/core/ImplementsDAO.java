@@ -15,7 +15,7 @@ public class ImplementsDAO<T, ID extends Serializable> implements InterfaceDAO<T
 {
 	Class<T> oClass;
 	Class<ID> oIndex;
-	EntityManager em;
+	protected EntityManager em;
 	
 	public ImplementsDAO(EntityManager em) {
 		this.oClass = this.getObjectClass();
