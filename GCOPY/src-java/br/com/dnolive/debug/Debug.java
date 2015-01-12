@@ -10,7 +10,7 @@ public class Debug
 		Operador o = new Operador();
 		//o.setId(1L);
 		o.setLogin("FLVO");
-		o.setSenha("JKASDFJASD");
+		o.setSenha("123456");
 		
 		ServiceOperador dao = new ServiceOperador();
 		o = dao.login(o);

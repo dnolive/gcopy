@@ -8,7 +8,7 @@
 			   currentState="{ModelLocator.getInstance().currentState}"
 			   pageTitle="Gestão de Franquia de Equipamento">
 	
-	<fx:Style source="assets/css/jukebox.css"/>
+	<!--fx:Style source="assets/css/jukebox.css"/-->
 	
 	<fx:Script>
 		<![CDATA[

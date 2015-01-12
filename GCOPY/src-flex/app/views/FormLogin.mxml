@@ -3,6 +3,8 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
    		 width="250" title="IDENTIFIQUE-SE"
+		 creationCompleteEffect="{this.myResize}"
+		 hideEffect="{this.myReverseResize}"
    		 creationComplete="onCreationComplete(event)">
 	
 	<fx:Script>
@@ -21,37 +23,45 @@
 			private var service: IDataService;
 			
 			[Bindable]
-			private var object: Operador;
+			private var operador: Operador;
 			
 			[Bindable]
 			private var helper: ModelLocator = ModelLocator.getInstance();
 			
 			
 			protected function onCreationComplete(event:FlexEvent):void	{
-				this.MoveDown.play();
 				this.service = FactoryService.get(FactoryService.OPERADOR);
-				this.object = new Operador();
+				this.operador = new Operador();
 			}
 			
 			protected function buttonLoginClick(event:MouseEvent):void {
-				this.object.login = this.inputUsuario.text;
-				this.object.senha = this.inputSenha.text;
-				ServiceOperador(this.service).login(object);
+				this.operador.login = this.inputUsuario.text;
+				this.operador.senha = this.inputSenha.text;
+				ServiceOperador(this.service).login(this.operador);
 			}
 			
 		]]>
 	</fx:Script>
 	
 	<fx:Declarations>
-		<s:Resize id="resizer" widthTo="250" filter="resize" duration="2000"  />
 		<s:Bounce id="bounceEasing"/>
+		<s:Resize id="myResize" 
+				  widthFrom="0" widthTo="250"
+				  easer="{bounceEasing}"
+				  duration="500">
+		</s:Resize>
+		<s:Resize id="myReverseResize" 
+				  widthFrom="250" widthTo="0"
+				  easer="{bounceEasing}"
+				  duration="500">
+		</s:Resize>
 		<s:Move id="MoveDown" target="{this}"
-				yFrom="-200" yTo="200"
+				yFrom="0" yTo="250"
 				easer="{bounceEasing}"
-				duration="2000"
+				duration="1000"
 				/>
 		<s:Move id="MoveUp" target="{this}"
-				yFrom="200" yTo="-200"
+				yFrom="250" yTo="0"
 				/>
 	</fx:Declarations>
 	

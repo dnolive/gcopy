@@ -1,14 +1,17 @@
 package app.models
 {
 	[Bindable]
-	[RemoteClass(alias="br.com.dnolive.models.Equipamento")]
-	public class Equipamento
+	[RemoteClass(alias="br.com.dnolive.models.Movimitem")]
+	public class Movimitem
 	{
 		public var id: Number;
-		public var nome: String;
-		public var ativo: String='S';
+		public var movimento: Movimento;
+		public var equipamento: Equipaloca;
+		public var setor: Setor;
+		public var leituraAnterior: int;
+		public var leituraAtual: int;
 		
-		public function Equipamento() {
+		public function Movimitem() {
 		}
 	}
 }

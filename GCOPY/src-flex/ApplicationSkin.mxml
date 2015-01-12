@@ -51,7 +51,7 @@
 		</s:fill-->
 		<s:fill>
 			<!--- @private -->
-			<s:BitmapFill source="@Embed('assets/images/background5.jpeg')" fillMode="scale" />
+			<s:BitmapFill source="@Embed('/assets/images/background5.jpeg')" fillMode="scale" />
 		</s:fill>
     </s:Rect>
         

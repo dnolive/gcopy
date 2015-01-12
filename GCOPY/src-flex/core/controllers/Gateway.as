@@ -15,8 +15,6 @@ package core.controllers
 	
 	public class Gateway
 	{
-		private var channel:Channel;
-		private var channelSet:ChannelSet;
 		private var endpoint:String;
 		private var destination:String;
 		private var source:String;
@@ -28,18 +26,16 @@ package core.controllers
 		private var onFault:Function;
 		
 		private static var instance:Gateway = null;
+		private static var channel:Channel;
+		private static var channelSet:ChannelSet;
 		
 		public function Gateway(endpoint: String) {
-			/*/
-			if (SINGLETON==null) {
-				return;	
+			if (instance == null) {
+				instance = this;
+				channelSet = new ChannelSet();
+				channel = new AMFChannel('my-amf', this.endpoint=endpoint);
+				channelSet.addChannel(channel);
 			}
-			/*/
-			channelSet = new ChannelSet();
-			channel = new AMFChannel('my-amf', this.endpoint=endpoint);
-			channelSet.addChannel(channel);
-			//
-			instance = this;
 		}
 
 		/*/
