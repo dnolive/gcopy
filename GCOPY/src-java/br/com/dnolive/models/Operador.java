@@ -3,10 +3,10 @@ package br.com.dnolive.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import br.com.dnolive.core.AbstractModel;
+import br.com.dnolive.core.ImplementsModel;
 
 @Entity
-public class Operador extends AbstractModel
+public class Operador extends ImplementsModel<Long>
 {	private static final long serialVersionUID = 1L;	
 
 	@Column(name="nome", length=100)
@@ -23,10 +23,10 @@ public class Operador extends AbstractModel
 	)
 	private String ativo;
 	
-	public Operador() {
-		super();
-	} 
-	   
+	//.................
+	//getters & setters
+	//.................
+	
 	public String getNome() {
 		return this.nome;
 	}
@@ -57,7 +57,11 @@ public class Operador extends AbstractModel
 	
 	@Override
 	public String toString() {
-		return "id: "+this.id;
+		return "id:"+this.id+
+				",nome:"+this.nome+
+				",login:"+this.login+
+				",senha:"+this.senha+
+				",ativo:"+this.ativo;
 	}
 	
 }

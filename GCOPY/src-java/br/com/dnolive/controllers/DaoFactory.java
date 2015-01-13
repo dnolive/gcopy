@@ -10,13 +10,12 @@ public final class DaoFactory
 {
 	public enum DAO {
 		OPERADOR(0),
-		EQUIPAMENTO(1),
-		SETOR(2),
-		LOCADORA(3),
-		MOVIMENTO(4),
-		MOVIMITEM(5),
-		EQUIPALOCA(6),
-		CONTRATO(7);
+		SETOR(1),
+		LOCADORA(2),
+		EQUIPAMENTO(3),
+		CONTRATO(4),
+		MOVIMENTO(5),
+		MOVIMITEM(6);
 
 		public int dao;
 		
@@ -38,13 +37,12 @@ public final class DaoFactory
 		}
 		switch (dao) {
 			case OPERADOR: return new DaoOperador(em);
-			case EQUIPAMENTO: return new DaoEquipamento(em);
 			case SETOR: return new DaoSetor(em);
 			case LOCADORA: return new DaoLocadora(em);
+			case EQUIPAMENTO: return new DaoEquipamento(em);
+			case CONTRATO: return new DaoContrato(em);
 			case MOVIMENTO: return new DaoMovimento(em);
 			case MOVIMITEM: return new DaoMovimitem(em);
-			case EQUIPALOCA: return new DaoEquipaloca(em);
-			case CONTRATO: return new DaoContrato(em);
 			default: return null;
 		}
 	}

@@ -3,14 +3,13 @@
 	
 	<persistence-unit name="GCOPY" transaction-type="RESOURCE_LOCAL">
 		
-		<class>br.com.dnolive.core.AbstractModel</class>		
+		<class>br.com.dnolive.core.ImplementsModel</class>		
 		<class>br.com.dnolive.models.Contrato</class>		
 		<class>br.com.dnolive.models.Movimento</class>
 		<class>br.com.dnolive.models.Movimitem</class>
 		<class>br.com.dnolive.models.Operador</class>
 		<class>br.com.dnolive.models.Setor</class>
 		<class>br.com.dnolive.models.Equipamento</class>
-	    <class>br.com.dnolive.models.Equipaloca</class>
 		<class>br.com.dnolive.models.Locadora</class>
 		
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
@@ -20,7 +19,7 @@
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="javax.persistence.jdbc.password" value=""/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-			<!--property name="eclipselink.ddl-generation" value="drop-and-create-tables"/-->
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
 			<property name="eclipselink.ddl-generation.output-mode" value="database"/>
 			<property name="eclipselink.logging.level" value="FINE"/>
 			<property name="eclipselink.logging.level.sql" value="FINE"/>

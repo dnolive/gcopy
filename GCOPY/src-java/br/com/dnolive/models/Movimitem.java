@@ -5,10 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import br.com.dnolive.core.AbstractModel;
+import br.com.dnolive.core.ImplementsModel;
 
 @Entity
-public class Movimitem extends AbstractModel
+public class Movimitem extends ImplementsModel<Long>
 {	private static final long serialVersionUID = 1L;	
 
 	@ManyToOne 
@@ -16,8 +16,8 @@ public class Movimitem extends AbstractModel
 	private Movimento movimento;
 	
 	@ManyToOne 
-	@JoinColumn(name="id_equipaloca")
-	private Equipaloca equipamento;
+	@JoinColumn(name="id_equipamento")
+	private Equipamento equipamento;
 
 	@ManyToOne 
 	@JoinColumn(name="id_setor")
@@ -40,10 +40,10 @@ public class Movimitem extends AbstractModel
 		this.movimento = movimento;
 	}
 
-	public Equipaloca getEquipamento() {
+	public Equipamento getEquipamento() {
 		return equipamento;
 	}
-	public void setEquipamento(Equipaloca equipamento) {
+	public void setEquipamento(Equipamento equipamento) {
 		this.equipamento = equipamento;
 	}
 	

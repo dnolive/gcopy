@@ -1,7 +1,7 @@
 package br.com.dnolive.models;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,10 +12,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.com.dnolive.core.AbstractModel;
+import br.com.dnolive.core.ImplementsModel;
 
 @Entity
-public class Movimento extends AbstractModel
+public class Movimento extends ImplementsModel<Long>
 {	private static final long serialVersionUID = 1L;	
 
 	@ManyToOne
@@ -34,11 +34,10 @@ public class Movimento extends AbstractModel
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data;
 	
-	@Column(name="referencia")
-	@Temporal(TemporalType.DATE)
-	private Date referencia;
+	@Column(name="referencia",length=7)
+	private String referencia;
 	
-	@Column(name="leiturista")
+	@Column(name="leiturista",length=100)
 	private String leiturista;
 	
 	@Column(name="valor_copia")
@@ -59,11 +58,11 @@ public class Movimento extends AbstractModel
 		targetEntity=Movimitem.class,
 		cascade=CascadeType.ALL
 	) 	
-	private Collection<Movimitem> itensMovimento;
+	private List<Movimitem> itensMovimento;
 	
-
-	//................
-	
+	//.................
+	//getters & setters
+	//.................
 	
 	public Locadora getLocadora() {
 		return locadora;
@@ -93,10 +92,10 @@ public class Movimento extends AbstractModel
 		this.data = data;
 	}
 
-	public Date getReferencia() {
+	public String getReferencia() {
 		return referencia;
 	}
-	public void setReferencia(Date referencia) {
+	public void setReferencia(String referencia) {
 		this.referencia = referencia;
 	}
 
@@ -135,7 +134,7 @@ public class Movimento extends AbstractModel
 		this.status = status==null?"A":status;
 	}
 
-	public Collection<Movimitem> getItensMovimento() {
+	public List<Movimitem> getItensMovimento() {
 		return itensMovimento;
 	}
 

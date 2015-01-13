@@ -3,10 +3,10 @@ package br.com.dnolive.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import br.com.dnolive.core.AbstractModel;
+import br.com.dnolive.core.ImplementsModel;
 
 @Entity
-public class Setor extends AbstractModel
+public class Setor extends ImplementsModel<Long>
 {	private static final long serialVersionUID = 1L;	
 
 	@Column(name="nome", length=100)

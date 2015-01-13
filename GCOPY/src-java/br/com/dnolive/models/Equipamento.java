@@ -2,13 +2,22 @@ package br.com.dnolive.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-import br.com.dnolive.core.AbstractModel;
+import br.com.dnolive.core.ImplementsModel;
 
 @Entity
-public class Equipamento extends AbstractModel
+public class Equipamento extends ImplementsModel<Long>
 {	private static final long serialVersionUID = 1L;	
 
+	@ManyToOne
+	@JoinColumn(name="id_locadora")
+	private Locadora locadora;
+	
+	@Column(name="serie", length=30)
+	private String serie;
+	
 	@Column(name="nome", length=100)
 	private String nome;
 	
@@ -17,7 +26,26 @@ public class Equipamento extends AbstractModel
 	)
 	private String ativo;
 	
+	//.................
+	//getters & setters
+	//.................
 	
+	public Locadora getLocadora() {
+		return locadora;
+	}
+
+	public void setLocadora(Locadora locadora) {
+		this.locadora = locadora;
+	}
+
+	public String getSerie() {
+		return serie;
+	}
+
+	public void setSerie(String serie) {
+		this.serie = serie;
+	}
+
 	public String getNome() {
 		return this.nome;
 	}

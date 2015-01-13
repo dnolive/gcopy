@@ -9,10 +9,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.com.dnolive.core.AbstractModel;
+import br.com.dnolive.core.ImplementsModel;
 
 @Entity
-public class Contrato extends AbstractModel
+public class Contrato extends ImplementsModel<Long>
 {	private static final long serialVersionUID = 1L;	
 
 	@ManyToOne
@@ -25,7 +25,7 @@ public class Contrato extends AbstractModel
 	
 	@Column(name="data_fim")
 	@Temporal(TemporalType.DATE)
-	private Date datatermino;
+	private Date dataTermino;
 	
 	@Column(name="valor_copia")
 	private Float valorCopia;
@@ -53,11 +53,11 @@ public class Contrato extends AbstractModel
 		this.dataInicio = dataInicio;
 	}
 
-	public Date getDatatermino() {
-		return datatermino;
+	public Date getDataTermino() {
+		return dataTermino;
 	}
-	public void setDatatermino(Date datatermino) {
-		this.datatermino = datatermino;
+	public void setDataTermino(Date dataTermino) {
+		this.dataTermino = dataTermino;
 	}
 
 	public Float getValorCopia() {
