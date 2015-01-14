@@ -5,10 +5,11 @@ import java.util.List;
 
 public interface InterfaceDAO<T, ID extends Serializable> 
 {
-	List<T> fetchAll();
-	T fetchByID(ID id);
+	List<T> getAll();
+	T getById(ID id);
 	List<T> save(T obj);
 	List<T> delete(T obj);
 	Class<T> getObjectClass();
 	Class<ID> getObjectIndex();
+	List<T> getBySema4(String sema4);
 }

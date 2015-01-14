@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 public class ImplementsDAO<T, ID extends Serializable> implements InterfaceDAO<T, ID> 
@@ -41,7 +42,7 @@ public class ImplementsDAO<T, ID extends Serializable> implements InterfaceDAO<T
 	}
 	
 	@Override
-	public List<T> fetchAll() {
+	public List<T> getAll() {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(oClass);
 		Root<T> root = cq.from(oClass);
@@ -54,7 +55,7 @@ public class ImplementsDAO<T, ID extends Serializable> implements InterfaceDAO<T
 	}
 
 	@Override
-	public T fetchByID(ID id) {
+	public T getById(ID id) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(oClass);
 		Root<T> root = cq.from(oClass);
@@ -68,6 +69,25 @@ public class ImplementsDAO<T, ID extends Serializable> implements InterfaceDAO<T
 		return result;
 	}
 
+	@Override
+	public List<T> getBySema4(String sema4) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(oClass);
+		Root<T> root = cq.from(oClass);
+		//...
+		Predicate pSema4 = cb.equal(root.get("sema4"), sema4);  
+		//...
+		cq.select(root).where(pSema4);
+		//...
+		TypedQuery<T> tq = em.createQuery(cq); 
+		//...
+		em.getTransaction().begin();
+		List<T> result = tq.getResultList() ;
+		em.getTransaction().commit();
+		//...
+		return result;
+	}
+
 	@SuppressWarnings("finally")
 	@Override
 	public List<T> save(T obj) {
@@ -78,7 +98,7 @@ public class ImplementsDAO<T, ID extends Serializable> implements InterfaceDAO<T
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 		} finally {
-			return this.fetchAll();
+			return this.getAll();
 		}
 	}
 
@@ -92,7 +112,7 @@ public class ImplementsDAO<T, ID extends Serializable> implements InterfaceDAO<T
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 		} finally { 
-			return this.fetchAll();
+			return this.getAll();
 		}
 	}
 

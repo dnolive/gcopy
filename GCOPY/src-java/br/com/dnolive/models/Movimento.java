@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -15,13 +16,9 @@ import javax.persistence.TemporalType;
 import br.com.dnolive.core.ImplementsModel;
 
 @Entity
-public class Movimento extends ImplementsModel<Long>
+public class Movimento extends ImplementsModel<Integer>
 {	private static final long serialVersionUID = 1L;	
 
-	@ManyToOne
-	@JoinColumn(name="id_locadora")
-	private Locadora locadora;
-	
 	@ManyToOne
 	@JoinColumn(name="id_contrato")
 	private Contrato contrato;
@@ -56,7 +53,8 @@ public class Movimento extends ImplementsModel<Long>
 
 	@OneToMany(mappedBy="movimento",
 		targetEntity=Movimitem.class,
-		cascade=CascadeType.ALL
+		cascade=CascadeType.DETACH, 
+		fetch = FetchType.EAGER
 	) 	
 	private List<Movimitem> itensMovimento;
 	
@@ -64,17 +62,10 @@ public class Movimento extends ImplementsModel<Long>
 	//getters & setters
 	//.................
 	
-	public Locadora getLocadora() {
-		return locadora;
-	}
-	public void setLocadora(Locadora locadora) {
-		this.locadora = locadora;
-	}
-
 	public Contrato getContrato() {
 		return contrato;
 	}
-	public void setIdContrato(Contrato contrato) {
+	public void setContrato(Contrato contrato) {
 		this.contrato = contrato;
 	}
 
@@ -137,5 +128,8 @@ public class Movimento extends ImplementsModel<Long>
 	public List<Movimitem> getItensMovimento() {
 		return itensMovimento;
 	}
-
+	public void setItensMovimento(List<Movimitem> itensMovimento) {
+		this.itensMovimento = itensMovimento;
+	}
+	
 }

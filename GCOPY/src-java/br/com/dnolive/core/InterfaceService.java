@@ -6,7 +6,8 @@ import java.util.List;
 public interface InterfaceService<T, ID extends Serializable> 
 {
 	List<T> getAll();
-	T getByID(ID id);
+	T getById(ID id);
 	List<T> save(T obj);
 	List<T> delete(T obj);
+	List<T> getBySema4(String sema4);
 }

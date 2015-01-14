@@ -15,9 +15,10 @@ package app.services
 		public function login(operador: Operador): void {
 			(new Gateway(this.endpoint))
 				.setDestination(this.destination)
-				.setCallBack(this.onLoginSuccess,this.onLoginFault)
-				.setOperation('login')
 				.setParams(operador)
+				.setOperation('login')
+				.setCallBack(this.onLoginSuccess,null)
+				//.setResponder(this)
 				.dispatch();
 		}
 		
@@ -27,10 +28,7 @@ package app.services
 		
 		public function onLoginSuccess(data: Object): void {
 			this.helper.currentUser = data.result as Operador;
-		}
-		
-		public function onLoginFault(data: Object): void {
-			Alert.show('Usuário ou senha Inválidos!', 'ERRO');
+			Alert.show(this.helper.currentState);
 		}
 		
 	}

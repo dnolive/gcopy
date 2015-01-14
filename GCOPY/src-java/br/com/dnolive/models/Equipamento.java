@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import br.com.dnolive.core.ImplementsModel;
 
 @Entity
-public class Equipamento extends ImplementsModel<Long>
+public class Equipamento extends ImplementsModel<Integer>
 {	private static final long serialVersionUID = 1L;	
 
 	@ManyToOne

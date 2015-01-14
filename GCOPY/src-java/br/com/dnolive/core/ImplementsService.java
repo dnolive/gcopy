@@ -20,12 +20,17 @@ public class ImplementsService<T, ID extends Serializable> implements InterfaceS
 	
 	@Override
 	public List<T> getAll() {
-		return this.dao.fetchAll();
+		return this.dao.getAll();
 	}
 
 	@Override
-	public T getByID(ID id) {
-		return this.dao.fetchByID(id);
+	public T getById(ID id) {
+		return this.dao.getById(id);
+	}
+
+	@Override
+	public List<T> getBySema4(String sema4) {
+		return this.dao.getBySema4(sema4);
 	}
 
 	@Override

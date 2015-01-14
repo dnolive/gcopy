@@ -5,7 +5,7 @@ import br.com.dnolive.controllers.DaoOperador;
 import br.com.dnolive.core.ImplementsService;
 import br.com.dnolive.models.Operador;
 
-public class ServiceOperador extends ImplementsService<Operador, Long> 
+public class ServiceOperador extends ImplementsService<Operador, Integer> 
 {
 	public ServiceOperador() {
 		super(DaoFactory.DAO.OPERADOR);

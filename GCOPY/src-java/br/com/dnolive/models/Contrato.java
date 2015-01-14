@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
 import br.com.dnolive.core.ImplementsModel;
 
 @Entity
-public class Contrato extends ImplementsModel<Long>
+public class Contrato extends ImplementsModel<Integer>
 {	private static final long serialVersionUID = 1L;	
 
 	@ManyToOne

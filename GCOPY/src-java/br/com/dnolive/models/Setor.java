@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import br.com.dnolive.core.ImplementsModel;
 
 @Entity
-public class Setor extends ImplementsModel<Long>
+public class Setor extends ImplementsModel<Integer>
 {	private static final long serialVersionUID = 1L;	
 
 	@Column(name="nome", length=100)

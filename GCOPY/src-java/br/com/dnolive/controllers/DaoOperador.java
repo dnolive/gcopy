@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 import br.com.dnolive.core.ImplementsDAO;
 import br.com.dnolive.models.Operador;
 
-public class DaoOperador extends ImplementsDAO<Operador, Long> 
+public class DaoOperador extends ImplementsDAO<Operador, Integer> 
 {
 	public DaoOperador(EntityManager em) {
 		super(em);
