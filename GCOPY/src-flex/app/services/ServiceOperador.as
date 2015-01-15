@@ -14,21 +14,23 @@ package app.services
 		
 		public function login(operador: Operador): void {
 			(new Gateway(this.endpoint))
+				.setCallBack(this.onLoginSuccess,this.onLoginFault)
 				.setDestination(this.destination)
-				.setParams(operador)
 				.setOperation('login')
-				.setCallBack(this.onLoginSuccess,null)
-				//.setResponder(this)
+				.setParams(operador)
 				.dispatch();
 		}
 		
 		public function logout(operador: Operador): void {
-			
+			this.helper.currentUser = null;
 		}
 		
 		public function onLoginSuccess(data: Object): void {
 			this.helper.currentUser = data.result as Operador;
-			Alert.show(this.helper.currentState);
+		}
+		
+		public function onLoginFault(info: Object): void {
+			Alert.show('Usuário ou Senha Inválidos!');
 		}
 		
 	}

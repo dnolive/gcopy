@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   width="100%" height="100%" borderVisible="false"
+				   creationComplete="onCreationComplete(event)">
+	<s:layout>
+		<s:HorizontalLayout/>
+	</s:layout>
+
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import app.models.Movimento;
+			import app.services.FactoryService;
+			import app.services.ModelLocator;
+			
+			import core.controllers.Gateway;
+			import core.controllers.IDataService;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.GridSelectionEvent;
+			import spark.events.TextOperationEvent;
+			
+			[Embed(source='assets/images/disquete_18.png')]
+			private const icoSave:Class;
+			[Embed(source='assets/images/add.png')]
+			private const icoNovo:Class;
+			[Embed(source='assets/images/pencil.png')]
+			private const icoEdit:Class;
+			[Embed(source='assets/images/delete.png')]
+			private const icoDelete:Class;
+			
+			
+			[Bindable]
+			private var object: Movimento;
+			
+			[Bindable]
+			private var helper: ModelLocator = ModelLocator.getInstance();
+			
+			[Bindable]
+			private var service: IDataService = FactoryService.get(FactoryService.MOVIMENTO);
+			
+			[Bindable]
+			private var itensMenu: ArrayCollection;
+			
+
+			protected function onCreationComplete(event:FlexEvent):void	{
+				this.itensMenu = new ArrayCollection([
+					{label: "Operadores", form: Class(FormGridOperadores)},
+					{label: "Setores", form: Class(FormGridSetores)},
+					{label: "Equipamentos", form: Class(FormGridEquipamento)},
+					{label: "Franquias", form: Class(FormGridLocadoras)}
+				]);
+				this.service.setFilter(this.onFilterList);
+				this.service.getAll();
+			}
+			
+			protected function inputProcurarChange(event:TextOperationEvent):void {
+				this.service.filtered = (this.inputProcurar.text.length>0);
+				this.service.refresh();
+			}
+			
+			protected function buttonNovoClick(event:MouseEvent):void	{
+				var form: IFlexDisplayObject = 
+					PopUpManager.createPopUp(this, FormEditarMovimento, true);
+				PopUpManager.centerPopUp(form);
+			}
+			
+			protected function buttonDeleteClick(event:MouseEvent):void	{
+				this.service.remove(this.object);
+			}
+			
+			protected function buttonAlterarClick(event:MouseEvent):void {
+				this.service.save(this.object);
+			}
+			
+			protected function datagridChange(event:GridSelectionEvent):void {
+				this.object = dataGrid.selectedItem as Movimento;
+			}
+			
+			protected function onFilterList(item:Object):Boolean {
+				return (item.nome.toLowerCase().search(this.inputProcurar.text.toLowerCase()) != -1);
+			}
+			
+			protected function buttonMenuClick(event:MouseEvent):void {
+				var classe: Class = Class(this.buttonMenu.selectedItem.form);
+				var form: IFlexDisplayObject = new classe;
+				PopUpManager.addPopUp(form,this,true);
+				PopUpManager.centerPopUp(form);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer width="137" height="100%" backgroundColor="#E3E3E3" chromeColor="#A6A6A6"
+					   contentBackgroundColor="#E6E6E6" dropShadowVisible="true">
+		<s:layout>
+			<s:VerticalLayout paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5" gap="3"/>
+		</s:layout>
+		<s:BorderContainer width="100%" height="25" backgroundColor="#F63B3B"
+						   dropShadowVisible="true">
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="1" paddingRight="1" verticalAlign="middle"/>
+			</s:layout>
+			<s:Button width="21" label="Button"/>
+			<s:Label width="100%" fontSize="18" fontWeight="bold" text="2015" textAlign="center"
+					 verticalAlign="middle"/>
+			<s:Button width="21" label="Button"/>
+		</s:BorderContainer>
+		<s:Spacer width="10" height="10"/>
+		<s:Button id="buttonNovo" width="100%" height="45" label="Novo Lançamento"
+				  click="buttonNovoClick(event)" fontSize="11" icon="{this.icoNovo}"
+				  iconPlacement="top" useHandCursor="true"/>
+		<s:Button id="buttonAlterar" width="100%" height="45" label="Alterar Lançamento"
+				  click="buttonAlterarClick(event)" enabled="{this.object!=null}" fontSize="11"
+				  icon="{this.icoEdit}" iconPlacement="top" useHandCursor="true"/>
+		<s:Button id="buttonExcluir" width="100%" height="45" label="Excluir Lançamento"
+				  click="buttonDeleteClick(event)" enabled="{this.object!=null}" fontSize="11"
+				  icon="{this.icoDelete}" iconPlacement="top" useHandCursor="true"/>
+		<s:Spacer width="10" height="10"/>
+		<s:Button id="buttonImprimir" width="100%" height="45" label="Imprimir Movimento"
+				  click="buttonDeleteClick(event)" enabled="{this.object!=null}" fontSize="11"
+				  icon="{this.icoDelete}" iconPlacement="top" useHandCursor="true"/>
+		<s:Button id="buttonEstatistica" width="100%" height="45" label="Gerar Estatísticas"
+				  click="buttonDeleteClick(event)" enabled="{this.object!=null}" fontSize="11"
+				  icon="{this.icoDelete}" iconPlacement="top" useHandCursor="true"/>
+		<s:Spacer width="10" height="10"/>
+		<s:ButtonBar id="buttonMenu" width="100%" height="100%" buttonMode="true"
+					 click="buttonMenuClick(event)" dataProvider="{this.itensMenu}"
+					 selectedIndex="0">
+			<s:layout>
+				<s:VerticalLayout gap="1" horizontalAlign="justify" paddingBottom="0"
+								  paddingLeft="5" paddingRight="5" paddingTop="0" rowHeight="32"
+								  variableRowHeight="false"/>
+			</s:layout>
+		</s:ButtonBar>
+
+	</s:BorderContainer>
+	<s:BorderContainer width="100%" height="100%" dropShadowVisible="false">
+		<s:layout>
+			<s:VerticalLayout gap="0" paddingLeft="5" paddingRight="5" paddingTop="5"/>
+		</s:layout>
+		<s:TabBar width="100%" height="25"
+				  dataProvider="{new ArrayCollection(this.helper.YEAR_MONTHS)}">
+			<s:layout>
+				<s:HorizontalLayout/>
+			</s:layout>
+		</s:TabBar>
+		<s:DataGrid id="dataGrid" width="100%" height="100%" borderVisible="true"
+					dataProvider="{this.service.collection}" fontSize="11" resizableColumns="false"
+					selectionChange="datagridChange(event)">
+			<s:columns>
+				<s:ArrayList>
+					<s:GridColumn dataField="id" headerText="Código" width="70"></s:GridColumn>
+					<s:GridColumn dataField="data" headerText="Data" width="80"></s:GridColumn>
+					<s:GridColumn dataField="referencia" headerText="Referência" width="80"></s:GridColumn>
+					<s:GridColumn dataField="locadora.nome" headerText="Franquia"></s:GridColumn>
+					<s:GridColumn dataField="leiturista" headerText="Leiturista"></s:GridColumn>
+					<s:GridColumn dataField="quantCopia" headerText="Qtd. Cópias" width="100"></s:GridColumn>
+					<s:GridColumn dataField="valorCopia" headerText="Vlr. Cópia" width="100"></s:GridColumn>
+					<s:GridColumn dataField="totalCopia" headerText="Total" width="100"></s:GridColumn>
+				</s:ArrayList>
+			</s:columns>
+		</s:DataGrid>
+		<s:HGroup width="100%" height="32" verticalAlign="middle">
+			<s:Label text="Localizar:"/>
+			<s:TextInput id="inputProcurar" width="100%"/>
+			<s:Button width="39" label="OK"/>
+			<s:Spacer width="40%" height="10"/>
+		</s:HGroup>
+	</s:BorderContainer>
+	
+</s:BorderContainer>

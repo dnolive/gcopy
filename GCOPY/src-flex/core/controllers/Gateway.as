@@ -15,8 +15,6 @@ package core.controllers
 	
 	public class Gateway
 	{
-		private var channel:Channel;
-		private var channelSet:ChannelSet;
 		private var endpoint:String;
 		private var destination:String;
 		private var source:String;
@@ -27,32 +25,19 @@ package core.controllers
 		private var onResult:Function;
 		private var onFault:Function;
 		
+		private static var channel:Channel;
+		private static var channelSet:ChannelSet;
 		private static var instance:Gateway = null;
 		
 		public function Gateway(endpoint: String) {
-			/*/
-			if (SINGLETON==null) {
-				return;	
+			if (instance == null) {
+				channelSet = new ChannelSet();
+				channel = new AMFChannel('my-amf', this.endpoint=endpoint);
+				channelSet.addChannel(channel);
+				instance = this;
 			}
-			/*/
-			channelSet = new ChannelSet();
-			channel = new AMFChannel('my-amf', this.endpoint=endpoint);
-			channelSet.addChannel(channel);
-			//
-			instance = this;
 		}
 
-		/*/
-		 * Obtém uma instancia da Classe
-		 * @author Denerson Nobre
-		 * @param endpoint Recebe o endpoint
-		 * @return Gateway
-		 *
-		public static function getInstance(endpoint:String):Gateway {
-			if (instance==null) new Gateway(new ghost(endpoint));
-			return instance;
-		}*/
-		
 		/** 
 		 * Dispara o evento remoto previamente configurado. 
 		 */
@@ -69,7 +54,6 @@ package core.controllers
 			
 		}
 
-		
 		public function setCallBack(onResult:Function, onFault:Function):Gateway {
 			this.onResult = (onResult==null) ? _onResult : onResult;
 			this.onFault = (onFault==null) ?_onFault : onFault;
@@ -116,11 +100,4 @@ package core.controllers
 	
 	}
 	
-}
-
-class ghost {
-	public var endpoint:String;
-	public function ghost(endpoint:String) {
-		this.endpoint = endpoint;
-	}
 }

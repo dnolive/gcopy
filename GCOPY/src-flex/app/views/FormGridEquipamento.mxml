@@ -126,7 +126,8 @@
 			<s:ArrayList>
 				<s:GridColumn dataField="id" headerText="Código" width="60"></s:GridColumn>
 				<s:GridColumn dataField="nome" headerText="Nome"></s:GridColumn>
-				<s:GridColumn dataField="ativo" headerText="Ativo" labelFunction="statusLabel" width="60"></s:GridColumn>
+				<s:GridColumn dataField="serie" headerText="Nº de Série" width="80"></s:GridColumn>
+				<s:GridColumn dataField="ativo" headerText="Ativo" labelFunction="statusLabel" width="50"></s:GridColumn>
 			</s:ArrayList>
 		</s:columns>
 	</s:DataGrid>

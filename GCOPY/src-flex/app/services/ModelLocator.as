@@ -54,7 +54,7 @@ package app.services
 		];
 		
 		public const YEAR_MONTHS:Array = [
-			'Janeiro','Fevereiro','Março','Abril', 'Maio','Junho',
+			'Janeiro','Fevereiro','Março','Abril','Maio','Junho',
 			'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'
 		];
 		

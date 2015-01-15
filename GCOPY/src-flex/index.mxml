@@ -7,8 +7,9 @@
 			   width="100%" height="100%" 
 			   currentState="{ModelLocator.getInstance().currentState}"
 			   pageTitle="Gestão de Franquia de Equipamento">
-	
-	<!--fx:Style source="assets/css/jukebox.css"/-->
+	<s:layout>
+		<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
+	</s:layout>
 	
 	<fx:Script>
 		<![CDATA[
@@ -17,18 +18,32 @@
 	</fx:Script>
 	
 	<s:states>
+		<s:State name="default"/>
 		<s:State name="logon"/>
 		<s:State name="logoff"/>
 	</s:states>
 	
-	<views:FormLogin 
-		includeIn="logoff" right="10" 
-		top="10" bottom="10">
-	</views:FormLogin>
+	<s:BorderContainer includeIn="default,logon" x="-8" y="-3" width="100%" height="64"
+					   backgroundColor="#F0EFEF" dropShadowVisible="true"
+					   borderVisible.default="false" dropShadowVisible.default="true"
+					   borderVisible.logon="false">
+		<s:layout>
+			<s:HorizontalLayout/>
+		</s:layout>
+	</s:BorderContainer>
 	
-	<views:FormMain
-		includeIn="logon" 
-		width="100%" height="100%">
-	</views:FormMain>
-	
+	<s:BorderContainer includeIn="default,logoff,logon" width="100%" height="100%"
+					   borderVisible.default="false" dropShadowVisible.default="true"
+					   borderVisible.logoff="false"
+					   borderVisible.logon="false">
+		<views:FormLogin 
+			includeIn="logoff" right="10" 
+			top="10" bottom="10">
+		</views:FormLogin>
+		<views:FormMain
+			includeIn="logon"
+			width="100%" height="100%">
+		</views:FormMain>
+	</s:BorderContainer>
+
 </s:Application>

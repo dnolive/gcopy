@@ -1,7 +1,7 @@
 package app.models
 {
 	[Bindable]
-	[RemoteClass(alias="br.com.dnolive.models.Contrato")]
+	[RemoteClass(alias="app.models.Contrato")]
 	public class Contrato
 	{
 		public var locadora: Locadora;

@@ -1,7 +1,7 @@
 package app.models
 {
 	[Bindable]
-	[RemoteClass(alias="br.com.dnolive.models.Operador")]
+	[RemoteClass(alias="app.models.Operador")]
 	public class Operador
 	{
 		public var id: Number;

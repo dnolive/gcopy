@@ -1,7 +1,7 @@
 package app.models
 {
 	[Bindable]
-	[RemoteClass(alias="br.com.dnolive.models.Locadora")]
+	[RemoteClass(alias="app.models.Locadora")]
 	public class Locadora
 	{
 		public var id: Number;

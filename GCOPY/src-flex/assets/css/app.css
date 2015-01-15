@@ -4,6 +4,7 @@
 global
 {
 	content-background-color: #F3EDED;
+	chromeColor: #646464;
 }
 
 .applicationBar 
@@ -33,8 +34,8 @@ s|DataGrid
 	fontSize: 12;
 	verticalScrollBarStyleName: dataGridVerticalScrollBar;
 	headerStyleName: dataGridHeader;
-	/*rollOverColor: #DCFFB2;
-	selectionColor: #4DFA66;*/
+	rollOverColor: #DCFFB2;
+	selectionColor: #4DFA66;
 	headerColors: #E8E3E3, #D1CECE;
 	verticalGridLines: true;
 	horizontalGridLines: false;
@@ -51,7 +52,7 @@ s|DataGrid
 }
 s|TitleWindow 
 {
-	/*backgroundColor: #ffffff;*/ 
+	backgroundColor: #ffffff; 
 	color : #0b333c; 
 	/*borderColor : #696969;*/
 	borderStyle :solid; 
@@ -102,7 +103,7 @@ s|Panel
 	text-align :left; 
 } 
 
-s|Alert 
+mx|Alert 
 {
 	backgroundColor: #ffffff; 
 	borderColor: #696969;
